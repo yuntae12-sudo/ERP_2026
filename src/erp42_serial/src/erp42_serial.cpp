@@ -1,141 +1,179 @@
 #include "erp42_serial.h"
-#include <algorithm>
-#include <thread>
 
-namespace unmansol { namespace erp42 {
-ERP42Serial::ERP42Serial(const char* name, int baud)
-    : nh_("~"), safety_(LoadConfig()) {
-    int timeout = 20;
-    bool allow_hardware = false;
-    nh_.param("io_timeout_ms", timeout, timeout);
-    nh_.param("allow_hardware_serial", allow_hardware, false);
-    if (timeout <= 0 || timeout > 100) {
-        ROS_ERROR("io_timeout_ms must be in [1,100]; refusing transport");
-        return;
-    }
-    serial_port_.reset(new SerialPort(name, baud, timeout, allow_hardware));
+using namespace unmansol::erp42;
+
+ERP42Serial::ERP42Serial(
+        const char *device_name,
+        int serial_baudrate)
+    : serial_port_(new SerialPort(device_name, serial_baudrate)),
+      m_nh("~"),
+      m_loop(50)
+{
+    InitData();
     UpdateNode();
 }
-SafetyConfig ERP42Serial::LoadConfig() {
-    SafetyConfig c;
-    nh_.param("stationary_only", c.stationary_only, true);
-    nh_.param("test_deadline_sec", c.test_deadline_sec, -1.0);
-    nh_.param("protocol_confirmed", c.protocol_confirmed, false);
-    nh_.param("stop_brake", c.stop_brake, -1);
-    nh_.param("brake_min", c.brake_min, -1);
-    nh_.param("brake_max", c.brake_max, -1);
-    nh_.param("brake_release", c.brake_release, -1);
-    nh_.param("estop_assert", c.estop_assert, -1);
-    nh_.param("estop_release", c.estop_release, -1);
-    nh_.param("speed_limit_raw", c.speed_limit_raw, -1);
-    nh_.param("initial_gear", c.initial_gear, -1);
-    nh_.param("steer_limit_raw", c.steer_limit_raw, 0);
-    nh_.getParam("allowed_gears", c.allowed_gears);
-    nh_.param("drive_timeout", c.drive_timeout, c.drive_timeout);
-    nh_.param("mode_timeout", c.mode_timeout, c.mode_timeout);
-    nh_.param("feedback_timeout", c.feedback_timeout, c.feedback_timeout);
-    nh_.param("stationary_hold", c.stationary_hold, c.stationary_hold);
-    nh_.param("manual_transition_confirmed", c.manual_transition_confirmed, false);
-    nh_.param("manual_transition_timeout", c.manual_transition_timeout, c.manual_transition_timeout);
-    return c;
+
+void ERP42Serial::InitData()
+{
+    m_pc2erp.speed._speed = 0x00;
+    m_pc2erp.steer._steer = 0x00;
+    m_pc2erp.brake = 0x00;
 }
-void ERP42Serial::UpdateNode() {
-    const auto ns = ros::this_node::getNamespace();
-    feedback_pub_ = nh_.advertise<Total_msgs::SerialFeedBack>(ns + "/feedback", 1);
-    command_pub_ = nh_.advertise<Total_msgs::CmdControl>(ns + "/command", 1);
-    mode_sub_ = nh_.subscribe(ns + "/mode", 1, &ERP42Serial::ModeCallback, this);
-    drive_sub_ = nh_.subscribe(ns + "/drive", 1, &ERP42Serial::DriveCallback, this);
-    rearm_service_ = nh_.advertiseService("rearm", &ERP42Serial::Rearm, this);
-}
-bool ERP42Serial::Open() {
-    if (!safety_.configured()) {
-        ROS_ERROR("Unconfirmed ERP42 protocol/stop policy: Serial will not be opened");
+
+bool ERP42Serial::Open()
+{
+    bool is_opend = serial_port_->Open();
+    if (!is_opend)
         return false;
-    }
-    if (!serial_port_ || !serial_port_->Open()) {
-        safety_.ReadFailure();
-        ROS_ERROR("Serial open refused/failed (PTY-only unless explicitly enabled)");
-        return false;
-    }
     return true;
 }
-bool ERP42Serial::Read() {
-    std::array<uint8_t, NUM_READ> bytes{};
-    const auto status = serial_port_->ReadFrame(bytes.data(), bytes.size());
-    if (status == SerialPort::ReadStatus::NoData) return false;
-    Feedback f;
-    if (status == SerialPort::ReadStatus::Error || !DecodeFeedback(bytes.data(), bytes.size(), f)) {
-        safety_.ReadFailure();
-        ROS_ERROR_THROTTLE(1, "Invalid/missing Serial frame; motion latched off");
-        return false;
+
+void ERP42Serial::UpdateNode()
+{
+    // DEBUG MODE
+    if (ros :: console :: set_logger_level (ROSCONSOLE_DEFAULT_NAME, ros :: console :: levels :: Debug))
+        ros :: console :: notifyLoggerLevelsChanged ();
+
+    std::string ns = ros::this_node::getNamespace();
+
+    m_pub_feedback = m_nh.advertise<Total_msgs::SerialFeedBack>(ns + "/feedback",1);
+    m_pub_cmdcontrol = m_nh.advertise<Total_msgs::CmdControl>(ns + "/command", 1);
+    m_sub_mode = m_nh.subscribe(ns + "/mode", 1, &ERP42Serial::ModeCallback, this);
+    m_sub_drive = m_nh.subscribe(ns + "/drive", 1, &ERP42Serial::DriveCallback, this);
+}
+
+void ERP42Serial::Write()
+{
+    //  std::cout << "test" << std::endl;
+    unsigned char writeBuffer[NUM_WRITE];
+    writeUpdate(writeBuffer);
+    serial_port_->Write(writeBuffer,NUM_WRITE);
+    m_pub_cmdcontrol.publish(m_cmdcontrol_msg);
+}
+
+void ERP42Serial::writeUpdate(unsigned char (&buffer)[NUM_WRITE])
+{
+    m_pc2erp.speed.speed[0] = m_pc2erp.speed._speed & 0xff;
+    m_pc2erp.speed.speed[1] = (m_pc2erp.speed._speed & 0xff00) >> 8;
+    m_pc2erp.steer.steer[0] = (m_pc2erp.steer._steer & 0xff);
+    m_pc2erp.steer.steer[1] = (m_pc2erp.steer._steer & 0xff00) >> 8;
+
+    buffer[0]   = m_pc2erp.S;
+    buffer[1]   = m_pc2erp.T;
+    buffer[2]   = m_pc2erp.X;
+    buffer[3]   = m_pc2erp.MorA;
+    buffer[4]   = m_pc2erp.E_stop;
+    buffer[5]   = m_pc2erp.gear;
+    buffer[6]   = m_pc2erp.speed.speed[1];
+    buffer[7]   = m_pc2erp.speed.speed[0];
+    buffer[8]   = m_pc2erp.steer.steer[1];
+    buffer[9]   = m_pc2erp.steer.steer[0];
+    buffer[10]  = 0;
+    buffer[11]  = m_AlvCnt++;
+    buffer[12]  = m_pc2erp.ETX0;
+    buffer[13]  = m_pc2erp.ETX1;
+
+    // if It is Auto Mode, it can write serial data
+    if (m_feedback_msg.MorA == static_cast<uint8_t>(MorA::AUTO))
+    {
+        std::cout << "\033[1;33mSending Packet..\033[0m\n";
+        std::cout << "m_pc2erp.steer._steer : " << (m_pc2erp.steer._steer) << std::endl;
+        for(const auto &data : buffer)
+            std::cout << std::hex << static_cast<int>(data)<< " ";
     }
-    safety_.ReceiveFeedback(f, SafetyClock::now());
-    Total_msgs::SerialFeedBack msg;
-    msg.MorA = f.mode.mode; msg.EStop = f.mode.estop; msg.Gear = f.mode.gear;
-    msg.speed = f.speed; msg.steer = f.steer; msg.brake = f.brake;
-    msg.encoder = f.encoder; msg.alive = f.alive;
-    feedback_pub_.publish(msg);
+    else
+        for(const auto &data : buffer)
+            std::cout << std::hex << static_cast<int>(data) << " ";
+    std::cout << std::endl;
+}
+
+bool ERP42Serial::Read()
+{
+    if (!serial_port_->Read(m_read_data, NUM_READ))
+        return false;
+    readUpdate();
     return true;
 }
-void ERP42Serial::Write() {
-    if (transmit_blocked_) return;
-    auto bytes = safety_.Packet(SafetyClock::now(), alive_);
-    const bool success = serial_port_->Write(bytes.data(), bytes.size());
-    safety_.WriteResult(success);
-    if (!success) {
-        transmit_blocked_ = true;
-        ROS_ERROR("Serial write failed; framing unknown. No automatic packet replay/reopen");
+
+void ERP42Serial::readUpdate()
+{
+    int idx = 0;
+
+    if (char(m_read_data[idx]) != 'S' ||
+            char(m_read_data[idx + 1]) != 'T' ||
+            char(m_read_data[idx + 2]) != 'X')
         return;
+
+    if (char(m_read_data[idx+16]) == 0x0D && char(m_read_data[idx + 17]) == 0x0A)
+    {
+        int speed_now = 0;
+        speed_now |= static_cast<int>((m_read_data[idx + 6]) & 0xff);
+        speed_now |= static_cast<int>((m_read_data[idx + 7] << 8) & 0xff00);
+
+        int steer_now = 0;
+        steer_now |= static_cast<int>((m_read_data[idx + 8]) & 0xff);
+        steer_now |= static_cast<int>((m_read_data[idx + 9] << 8) & 0xff00);
+
+        if (steer_now > 32768)
+            steer_now = steer_now - 65536;
+
+        int32_t encoder = 0;
+        encoder |= static_cast<int32_t>((m_read_data[idx + 11]) & 0xff);
+        encoder |= static_cast<int32_t>((m_read_data[idx + 12] << 8) & 0xff00);
+        encoder |= static_cast<int32_t>((m_read_data[idx + 13] << 16) & 0xff0000);
+        encoder |= static_cast<int32_t>((m_read_data[idx + 14] << 24) & 0xff000000);
+
+        m_feedback_msg.MorA     = m_read_data[idx + 3];
+        m_feedback_msg.EStop    = m_read_data[idx + 4];
+        m_feedback_msg.Gear     = m_read_data[idx + 5];
+        m_feedback_msg.speed    = speed_now/SPEED_FACTOR;
+        m_feedback_msg.steer    = steer_now/STEER_FACTOR;
+        m_feedback_msg.brake    = m_read_data[idx + 10];
+        m_feedback_msg.encoder  = encoder;
+        m_feedback_msg.alive    = m_read_data[idx+15];
+        
+        m_pub_feedback.publish(m_feedback_msg);
     }
-    Total_msgs::CmdControl msg;
-    // Publish the exact fully written packet, including watchdog overrides/alive.
-    msg.MorA = bytes[3]; msg.EStop = bytes[4]; msg.Gear = bytes[5];
-    msg.KPH = uint16_t(bytes[6]) * 256 + bytes[7];
-    const int steer = int(bytes[8]) * 256 + bytes[9];
-    msg.Deg = static_cast<int16_t>(steer >= 32768 ? steer - 65536 : steer);
-    msg.brake = bytes[10]; msg.alive = bytes[11];
-    ++alive_;
-    command_pub_.publish(msg);
 }
-void ERP42Serial::Run() {
-    if (!Open()) return;
-    const auto period = std::chrono::milliseconds(20);
-    int previous_state = -1;
-    std::string previous_reason;
-    while (ros::ok()) {
-        const auto start = SafetyClock::now();
+
+void ERP42Serial::ERP42Serial::Run()
+{
+    if (!this->Open())
+        return;
+
+    while(ros::ok())
+    {
         ros::spinOnce();
-        Read();
-        safety_.Tick(SafetyClock::now());
-        Write(); // A missing feedback frame does not skip the stop request.
-        if (previous_state != int(safety_.state()) || previous_reason != safety_.reason()) {
-            previous_state = int(safety_.state());
-            previous_reason = safety_.reason();
-            ROS_INFO_STREAM("ERP42 safety state " << previous_state << ": " << safety_.reason());
+        if (!this->Read())
+        {
+            std::cout << "\033[1;33mNo data comes in.\033[0m" << std::endl;
+            continue;
         }
-        ROS_WARN_STREAM_THROTTLE(1, "ERP42 safety state " << int(safety_.state()) << ": " << safety_.reason());
-        std::this_thread::sleep_until(start + period);
+        this->Write();
+        m_loop.sleep();
     }
-    // Graceful exit only: bounded best effort, no guarantee on SIGKILL/link loss.
-    safety_.Stop("process shutdown");
-    Write();
-    serial_port_->Close();
 }
-void ERP42Serial::ModeCallback(const Total_msgs::ModeCmd::ConstPtr& msg) {
-    ModeCommand m;
-    m.mode = msg->MorA; m.estop = msg->EStop; m.gear = msg->Gear;
-    safety_.Mode(m, SafetyClock::now()); // ModeCmd.alive remains unused by contract.
+
+void ERP42Serial::ModeCallback(const Total_msgs::ModeCmd::Ptr &msg)
+{
+    m_pc2erp.MorA = msg->MorA;
+    m_pc2erp.E_stop = msg->EStop;
+    m_pc2erp.gear = msg->Gear;
+
+    m_cmdcontrol_msg.MorA = msg->MorA;
+    m_cmdcontrol_msg.EStop = msg->EStop;
+    m_cmdcontrol_msg.Gear = msg->Gear;
 }
-void ERP42Serial::DriveCallback(const Total_msgs::DriveCmd::ConstPtr& msg) {
-    DriveCommand d;
-    d.speed = msg->KPH; d.steer = msg->Deg; d.brake = msg->brake;
-    safety_.Drive(d, SafetyClock::now()); // Existing raw units, no added scaling.
-    if (!safety_.drive_diagnostic().empty())
-        ROS_WARN_STREAM_THROTTLE(1, safety_.drive_diagnostic());
+
+void ERP42Serial::DriveCallback(const Total_msgs::DriveCmd::Ptr &msg)
+{
+    // m_pc2erp.speed._speed = msg->KPH * SPEED_FACTOR;
+    // m_pc2erp.steer._steer = msg->Deg * MINUS_STEER_FACTOR;
+    m_pc2erp.speed._speed = msg->KPH;
+    m_pc2erp.steer._steer = msg->Deg;
+    m_pc2erp.brake = 0;
+
+    m_cmdcontrol_msg.KPH = msg->KPH;
+    m_cmdcontrol_msg.Deg = msg->Deg;
+    m_cmdcontrol_msg.brake = 0;
 }
-bool ERP42Serial::Rearm(std_srvs::Trigger::Request&, std_srvs::Trigger::Response& response) {
-    response.success = !transmit_blocked_ && safety_.Rearm(SafetyClock::now(), response.message);
-    if (transmit_blocked_) response.message = "transport recovery required; framing unknown";
-    return true;
-}
-}} // namespace unmansol::erp42

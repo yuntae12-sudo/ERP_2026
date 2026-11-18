@@ -17,18 +17,17 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>roscpp</build_depend>
-  <build_depend>std_srvs</build_depend>
+  <build_depend>serial</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>Total_msgs</build_depend>
 
   <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>std_srvs</build_export_depend>
+  <build_export_depend>serial</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
   <build_export_depend>Total_msgs</build_export_depend>
 
   <exec_depend>roscpp</exec_depend>
-  <exec_depend>std_srvs</exec_depend>
-  <test_depend>gtest</test_depend>
+  <exec_depend>serial</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>Total_msgs</exec_depend>
 

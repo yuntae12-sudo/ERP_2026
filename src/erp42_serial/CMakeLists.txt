@@ -12,7 +12,7 @@ add_compile_options(-std=c++11)
 ################################################################################
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  std_srvs
+  serial
   std_msgs
   ## erp42_msgs
   Total_msgs
@@ -22,7 +22,7 @@ find_package(catkin REQUIRED COMPONENTS
 # Declare catkin specific configuration to be passed to dependent projects
 ################################################################################
 catkin_package(
-  CATKIN_DEPENDS roscpp std_srvs std_msgs Total_msgs
+  CATKIN_DEPENDS roscpp serial std_msgs Total_msgs
 )
 
 ################################################################################
@@ -33,14 +33,13 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
 )
 
-add_library(erp42_safety src/safety_control.cpp src/SerialPort/serial_port.cpp)
-
 add_executable(erp42_serial_node
     src/erp42_serial.cpp
     src/erp42_serial_node.cpp
+    src/SerialPort/serial_port.cpp
     )
 add_dependencies(erp42_serial_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(erp42_serial_node erp42_safety ${catkin_LIBRARIES})
+target_link_libraries(erp42_serial_node ${catkin_LIBRARIES})
 
 ################################################################################
 # Install
@@ -50,9 +49,3 @@ target_link_libraries(erp42_serial_node erp42_safety ${catkin_LIBRARIES})
 ################################################################################
 # Test
 ################################################################################
-if(CATKIN_ENABLE_TESTING)
-  catkin_add_gtest(erp42_safety_test test/safety_test.cpp)
-  if(TARGET erp42_safety_test)
-    target_link_libraries(erp42_safety_test erp42_safety util pthread)
-  endif()
-endif()
