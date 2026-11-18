@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="camera" type="DetectTrafficLight_ERP.py" name="DetectTrafficLight_ERP">
+    </node>
+
+    <node pkg="camera" type="SortTrafficLight.py" name="SortTrafficLight" output="screen">
+    </node>
+</launch>

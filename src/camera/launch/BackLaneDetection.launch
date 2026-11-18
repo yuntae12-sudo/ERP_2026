@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="camera" type="FLIRCamParser.py" name="FLIRCamParser">
+    </node>
+
+    <node pkg="camera" type="BackLaneDetection.py" name="BackLaneDetection" output="screen">
+    </node>
+</launch>

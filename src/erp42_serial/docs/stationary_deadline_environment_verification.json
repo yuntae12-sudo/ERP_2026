@@ -1,0 +1,29 @@
+{
+  "time": "2026-10-10T21:38:11.907360+09:00",
+  "protected_entries_checked": 9055,
+  "protected_changed": [],
+  "protected_added": [],
+  "protected_missing": [],
+  "serial_pid": 5082,
+  "serial_start_tick": "28147",
+  "same_serial_process": true,
+  "serial_binary_sha256": "2c444c16402e3ca8e45497389aae4ef08ae2e92b31b2dbed329b21e4f353bbc3",
+  "serial_binary_sha256_unchanged": true,
+  "heads_unchanged": true,
+  "remote_unchanged": true,
+  "parameters_unchanged": true,
+  "graph_unchanged": true,
+  "control_cpp_unchanged": true,
+  "git_index_unchanged": true,
+  "hardware_commands_executed": false,
+  "hardware_serial_opened": false,
+  "isolated_tests_executed": true,
+  "device_owners": [
+    {
+      "pid": 5082,
+      "fd": "10"
+    }
+  ],
+  "device_owners_unchanged": true,
+  "success": true
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<launch>
+        <arg name="namespace" default="/erp42_serial"/>
+        <group ns="$(arg namespace)">
+            <node pkg="erp42_serial" name="erp42_serial_node" type="erp42_serial_node" output="screen">
+                <param name="serial_port" value="/dev/ttyUSB2"/>
+                <param name="serial_baudrate" value="115200"/>
+                <!-- No hardware access or Auto motion until verified policy is supplied. -->
+                <param name="protocol_confirmed" value="false"/>
+                <param name="allow_hardware_serial" value="false"/>
+                <param name="manual_transition_confirmed" value="false"/>
+                <param name="stationary_only" value="true"/>
+                <!-- Explicit reviewed positive session limit required; no implicit trial. -->
+                <param name="test_deadline_sec" value="-1.0"/>
+            </node>
+        </group>
+</launch>

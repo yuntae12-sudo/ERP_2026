@@ -1,0 +1,10 @@
+<launch>
+    <node pkg="camera" type="FLIRCamParser.py" name="FLIRCamParser">
+    </node>
+
+    <node pkg="camera" type="DetectTrafficSign.py" name="DetectTrafficSign">
+    </node>
+
+    <node pkg="camera" type="SenSorFusion.py" name="SenSorFusion" output="screen">
+    </node>
+</launch>

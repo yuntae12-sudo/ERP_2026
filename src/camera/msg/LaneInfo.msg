@@ -1,0 +1,2 @@
+float32 f32_Slope
+float32 f32_InterceptY

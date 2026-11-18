@@ -1,0 +1,48 @@
+## Path
+## ModelChoice: 0 -> ERP (DetectTS)
+## ModelChoice: 1 -> Morai Cams (DetectTS)
+## ModelChoice: 2 -> ERP(SenSorFusion)
+## ModelChoice: 3 -> ERP(SenSorFusion)
+ModelChoice: 0
+TLChoice: 2
+
+Paths:
+  ModelPathTLERPMorai : "/home/autonav/ERP_2024/src/Models/TL_0823.pt"
+  ModelPathTSERP : "/home/autonav/ERP_2024/src/Models/TS_0707.pt"
+  ModelPathTSMorai : "/home/autonav/ERP_2024/src/Models/TS_MORAI.pt"
+
+Parameters:
+  ParamERP : "rospy.Subscriber('raw_image', N_image, self.ImageCallback_FILR)"
+  ParamERPTL : "rospy.Subscriber('/usb_cam/image/compressed',CompressedImage,self.ImageCallback)"
+  ParamMoraiCam : "rospy.Subscriber('/image_jpeg/compressed', CompressedImage,self.ImageCallback_MORAI)"
+
+TSClass:
+  ERPClass : "['A1','A2','A3','B1','B2','B3']"
+  MoraiCamClass : "['40','60','80']"
+
+TLClass:
+  ERPMoraiClass : "['Green', 'LeftGreen','Red','RedLeft','RedYellow','Yellow']"
+  
+InTranParameters:
+  ERPIntrinsic: |
+    np.array([[   1390   ,      0    ,    1020   ,0], 
+              [     0    ,    1390   ,     570   ,0],
+              [     0    ,      0    ,      1    ,0]],dtype=np.float64)
+
+  ERPTranslation: |
+    np.array([[1,0,0,0.53], 
+              [0,1,0,0],
+              [0,0,1,-0.65]],
+              [0,0,0,1]])
+
+  MoraiIntrinsic: |
+    np.array([[   1390   ,      0    ,    1020   ,0], 
+              [     0    ,    1390   ,     570   ,0],
+              [     0    ,      0    ,      1    ,0]])
+
+  MoraiTranslation: |
+    np.array([[1,0,0,-0.08], 
+              [0,1,0,0],
+              [0,0,1,-0.34],
+              [0,0,0,1]]
+              )

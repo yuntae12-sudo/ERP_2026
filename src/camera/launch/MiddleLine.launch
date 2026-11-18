@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="camera" type="WebcamParser.py" name="WebcamParser">
+    </node>
+    
+    <node pkg="camera" type="OrangeLine.py" name="OrangeLine" output = "screen">
+    </node>
+</launch>

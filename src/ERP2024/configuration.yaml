@@ -1,0 +1,114 @@
+## Global Path Load
+# Katri/HDMap      Katri/2023Map         Inha        Siheung
+# false: Not HDMap    true: HDMap
+MapName: "Siheung"
+MapMode: true
+
+# 0: Morai, 1: ERP
+CanMode: 1
+DeliveryMode: 1
+
+## Sensor Mode
+# 0: MORAI, 1: ERP
+CameraMode: 1
+LiDARMode: 1
+FusionMode: 1
+
+GPSIMUMode: 1
+VehicleMode: 1
+PrintMode: 1
+
+## Planning Mode
+# 0: Main, 1: Preliminary, 2: Narrow
+TrackingMap: 0
+
+# 0: On, 1: Test, 2: Off
+MissionMode: 0
+MissionTestName: ""
+TrafficMode: 2
+TrafficTestName: ""
+StraightMode: 2
+StraightTestName: ""
+
+## Planning Parameter
+AvoidSmallLeftThres: 1.7
+AvoidSmallRightThres: 1.7
+AvoidSmallFirstDist: 4
+AvoidSmallLastDist: 8
+AvoidSmallThres: 1.75
+# AvoidSmallCosts: [-1.5, 1.3, 1.8]
+AvoidSmallCosts: [10.0, 5.0, 0.0]
+## 1.3 / -0.4 / 0.35 / 0.2
+## 1.3 / -0.4 / 0.4 / 0.2 / 2.5
+## inha score : 1.4 / -1.8, 1.3, 1.8 / 2.5
+
+AvoidLargeLeftThres: 1.7
+AvoidLargeRightThres: 5.1
+AvoidLargeFirstDist: 10
+AvoidLargeLastDist: 10
+AvoidLargeThres: 2.1
+AvoidLargeCosts: [10.0, 5.0, 0.0]
+#[0.4, 1.3, 2.7]
+## inha score : 2.0 / 0.4, 2.1, 2.7 / 5
+## inha score : 2.0 / 0.4, 1.7, 2.7 / 5
+
+###################
+DeliveryLargeLeftThres: 1.7
+DeliveryLargeRightThres: 5.1
+DeliveryFirstLastDist: 15
+# DeliveryFirstLastDist: 10
+DeliveryThres: 1.8
+DeliveryCosts: [10.0, 1.0, 0.0]
+# DeliveryCosts: [-1.0, 1.5, 1.8]
+## init score : 0.9, 0.1, 0.0
+
+###################
+UturnCodeSelect: 1 # 0 : Angle Ref, 1 : Distance Ref, 2 : Only LiDAR 
+UturnAngleThreshold_deg: 65
+UturnStartIdxMargin: 5
+UturnIdxMargin: 40
+###################
+
+TunnelWallWidth: 11.0
+TunnelRoadWidth: 3.4
+TunnelRoadCenter: 5.1
+TunnelAvoidOffset: 0.8
+TunnelAvoidMargin: 0.3
+## K-City : 11.0 / 3.4 / 4.8 / 1.0 / 0.7
+## Morai : 11.0 / 3.4 / 4.2 / 1.0 / 0.7
+## 009 : 7.0 / 3.4 / 4.8 / 1.0 / 1.0
+
+#kcity:[Delivery_A, AvoidSmall, AvoidLarge, Delivery_B], siheung:[AvoidLarge, AvoidSmall, Delivery_A, Delivery_B]
+RefYaw: [28.6, -62.8, 26.3, 0] # Siheung: [-132, 137, 0, 0], Kcity: [0, -62.8, 27.2, 0]
+LaneOffSet: [0, 0, 0, 0] # Siheung: [0.3, -0.5, 0, 0], Kcity: 0, 0, -1.75, 0]
+MakePathStart: [500, 1211, 3270, 4434] # Siheung:[0, 1580, 3600, 5082], Kcity:[0, 1211, 3150, 4434]
+MakePathEnd: [1000, 1477, 4136, 4757] # Siheung:[0, 1734, 4565, 5534], Kcity:[0, 1477, 4136, 4757]
+
+## Control
+# 0: PurePursuit, 1: Stanley, 2: LookAheadStanley, 3: MPC
+ControlMethod: 0
+
+# Mission Target Speed
+# DELIVERY_A, AVOID_SMALL, AVOID_LARGE, DELIVERY_B, PARKING
+MissionMainSpeed: [10.0, 8.0, 10.0, 10.0, 6.0] # AVOID_SMALL 8.0
+# U_TURN, TUNNEL
+MissionMQualSpeed: [8.0, 8.0]
+
+# DELIVERY_A, AVOID_SMALL, AVOID_LARGE, DELIVERY_B, PARKING
+MissionMainLD: [3.5, 3.5, 3.5, 3.5, 2.5] # AVOID_SMALL 8.0
+# U_TURN, TUNNEL
+MissionMQualLD: [3.5, 3.5]
+
+## Control Parameter
+# PurePursuit
+TargetVelocity: 8
+LookAheadDistance: 4.0 # 2.3
+
+
+# PID
+PGain: 1.0
+IGain: 0.0
+DGain: 0.0
+
+# Stanley
+Stanley_k: 1.0

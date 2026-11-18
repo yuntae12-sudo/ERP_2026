@@ -1,0 +1,155 @@
+{
+  "captured_at": "2026-10-10T21:13:53.409306+09:00",
+  "pid": 5082,
+  "start_tick": "28147",
+  "exe": "/home/autonav/ERP_2024/devel/lib/erp42_serial/erp42_serial_node",
+  "cwd": "/home/autonav/.ros",
+  "cmdline": "/home/autonav/ERP_2024/devel/lib/erp42_serial/erp42_serial_node __name:=erp42_serial_node __log:=/home/autonav/.ros/log/2a8c982c-c495-11f1-881b-512fa6748b34/erp42_serial-erp42_serial_node-1.log ",
+  "environment": {
+    "ROS_PACKAGE_PATH": "/home/autonav/ERP_2024/src:/opt/ros/noetic/share",
+    "CMAKE_PREFIX_PATH": "/home/autonav/ERP_2024/devel:/opt/ros/noetic",
+    "PYTHONPATH": "/home/autonav/ERP_2024/devel/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages",
+    "ROS_MASTER_URI": "http://localhost:11311",
+    "ROS_DISTRO": "noetic",
+    "ROS_NAMESPACE": "/erp42_serial"
+  },
+  "parent_cmdline": "/usr/bin/python3 /opt/ros/noetic/bin/roslaunch erp42_serial erp42_serial_bridge.launch ",
+  "params": [
+    1,
+    "Parameter [/erp42_serial]",
+    {
+      "erp42_serial_node": {
+        "serial_port": "/dev/ttyUSB2",
+        "serial_baudrate": 115200
+      }
+    }
+  ],
+  "system_state": [
+    1,
+    "current system state",
+    [
+      [
+        [
+          "/rosout_agg",
+          [
+            "/rosout"
+          ]
+        ],
+        [
+          "/rosout",
+          [
+            "/erp42_serial/erp42_serial_node"
+          ]
+        ],
+        [
+          "/erp42_serial/feedback",
+          [
+            "/erp42_serial/erp42_serial_node"
+          ]
+        ],
+        [
+          "/erp42_serial/command",
+          [
+            "/erp42_serial/erp42_serial_node"
+          ]
+        ]
+      ],
+      [
+        [
+          "/rosout",
+          [
+            "/rosout"
+          ]
+        ],
+        [
+          "/erp42_serial/mode",
+          [
+            "/erp42_serial/erp42_serial_node"
+          ]
+        ],
+        [
+          "/erp42_serial/drive",
+          [
+            "/erp42_serial/erp42_serial_node"
+          ]
+        ]
+      ],
+      [
+        [
+          "/rosout/get_loggers",
+          [
+            "/rosout"
+          ]
+        ],
+        [
+          "/rosout/set_logger_level",
+          [
+            "/rosout"
+          ]
+        ],
+        [
+          "/erp42_serial/erp42_serial_node/get_loggers",
+          [
+            "/erp42_serial/erp42_serial_node"
+          ]
+        ],
+        [
+          "/erp42_serial/erp42_serial_node/set_logger_level",
+          [
+            "/erp42_serial/erp42_serial_node"
+          ]
+        ]
+      ]
+    ]
+  ],
+  "node_api": [
+    1,
+    "node api",
+    "http://autonav:39955/"
+  ],
+  "heads": "bce6d56eb86ef60b78a2cc6483cfde9525229633 refs/heads/backup/erp2024-before-drive-test\n852d1bbfe090b5786597b7dfe21084f6b7b8dae9 refs/heads/master\nbce6d56eb86ef60b78a2cc6483cfde9525229633 refs/heads/test/erp42-low-speed-drive",
+  "remotes": "origin\tssh://fs-admin@165.246.170.75:7751/home/fs-admin/ERP_2024.git (fetch)\norigin\tssh://fs-admin@165.246.170.75:7751/home/fs-admin/ERP_2024.git (push)",
+  "branch": "test/erp42-low-speed-drive",
+  "head": "bce6d56eb86ef60b78a2cc6483cfde9525229633",
+  "status_before_documents": "M src/erp42_serial/CMakeLists.txt\n M src/erp42_serial/include/SerialPort/serial_port.h\n M src/erp42_serial/include/erp42_serial.h\n M src/erp42_serial/launch/erp42_serial_bridge.launch\n M src/erp42_serial/package.xml\n M src/erp42_serial/src/SerialPort/serial_port.cpp\n M src/erp42_serial/src/erp42_serial.cpp\n?? src/erp42_serial/SAFETY.md\n?? src/erp42_serial/include/safety_control.h\n?? src/erp42_serial/src/safety_control.cpp\n?? src/erp42_serial/test/",
+  "binary_sha256": "2c444c16402e3ca8e45497389aae4ef08ae2e92b31b2dbed329b21e4f353bbc3",
+  "backup_binary_sha256": "2c444c16402e3ca8e45497389aae4ef08ae2e92b31b2dbed329b21e4f353bbc3",
+  "node_getPid": [
+    1,
+    "",
+    5082
+  ],
+  "device_owners": [
+    {
+      "pid": 5082,
+      "fd": "10"
+    }
+  ],
+  "source_hashes": {
+    "src/erp42_serial/SAFETY.md": "45fca315616335ac73eb32229934c47f41e1449293689fa81e47d5dbd2985fec",
+    "src/erp42_serial/CMakeLists.txt": "ed26c5a93291bd567d23a274c7b071f93d8e22d25db4f14496d86472a6768b2d",
+    "src/erp42_serial/package.xml": "3b665744519aec3b2b31cda45efc8a647ab627c993853f6132b6785951f979be",
+    "src/erp42_serial/include/safety_control.h": "fcfd3ea6b526ae6cd6cab22e855e493312939c8e212fb2f68249a76fd38ab0d5",
+    "src/erp42_serial/include/erp42_serial.h": "6c70d0b130326edcd9fca3a5ad3e3ae81bbfbfbc6164dbd74494f3df5aa80ff5",
+    "src/erp42_serial/include/SerialPort/serial_port.h": "b882c63694a2b60628bdbac1949cde04ba123642c7a0b8715389153a01d4acce",
+    "src/erp42_serial/src/erp42_serial_node.cpp": "3fd823938610a0e282d001562f1d38a90b9a8537b5ce5cdf1c8e3af21b614bc3",
+    "src/erp42_serial/src/safety_control.cpp": "4371f6aa52094c5cd92216889a63079d61bdfae995a6e7ad0491f11f0b5fa529",
+    "src/erp42_serial/src/erp42_serial.cpp": "bf93350a5a696aa86988e2e03b061d208499039eddc08fbe57c3299f0ee65a4e",
+    "src/erp42_serial/src/.vscode/c_cpp_properties.json": "95a47f114307eceaf8fb06854c31207be748cdc785182544c65ba76459ec11e3",
+    "src/erp42_serial/src/.vscode/settings.json": "090a01e2bf7a18e887009c04997d697acb7d06315706c8d0f8b55edac0c63618",
+    "src/erp42_serial/src/SerialPort/serial_port.cpp": "406f960b9839c95975abb31c6d7fad48bf3b804e1368370bb49d4a24cf7debb6",
+    "src/erp42_serial/test/run_offline.py": "f3ef8d6c97427c5f12f07bf316d40bfbcf3637525a8cc64362c0b2faa72b0adf",
+    "src/erp42_serial/test/run_ros_integration.py": "dca06ba36709581ef8708e0942d8cb99f0925e79c92a120d31fb9de719fd344e",
+    "src/erp42_serial/test/safety_test.cpp": "652af0db14a2150a2d3b8fe2f1cadd221ef64a931d84949fb23c01928ec0fb39",
+    "src/erp42_serial/test/observe_feedback.py": "5aeb6cdbaa12f914d2d718f43638fa0d99fe7466dd8add00456654a62a162866",
+    "src/erp42_serial/launch/erp42_serial_bridge.launch": "9030f779f51e9c91262053651779fe0ffea77cddf7fe511249bf95d2cd74516c",
+    "src/ERP2024/src/Control/Control.cpp": "7610756c0278edee2c0f2eabcf172cf605545a94c0c1fb535378850ecaae0bb1",
+    "src/Total_msgs/ERP/CmdControl.msg": "2dde71b29133d40b6d69dd5dd1329e274e8d3b0d9602b90bc905a7d08b764f65",
+    "src/Total_msgs/ERP/CANFeedBack.msg": "d819437c1720254e32eab45b985fdb1bdea4c93670d682c71b28b340ba78eda4",
+    "src/Total_msgs/ERP/SerialFeedBack.msg": "211da52ae1a1718a7f300df4c894c054b4bfc70e3a600765fa7b661cb05d42f7",
+    "src/Total_msgs/ERP/ModeCmd.msg": "00d3f46d06b3e9c38033a6c16c323196ee0fc7eea569bc1c0e8f6df5cfc62d47",
+    "src/Total_msgs/ERP/Encoder_vel.msg": "a8539140de9bb0bb8fe4166876015dc1313b7b7c71114af03a85d48dac0fd6e6",
+    "src/Total_msgs/ERP/DriveCmd.msg": "56f15570d84c45413da15c1933d25cf480f8f6bfb460216ffdad921d1a3f4ec4"
+  },
+  "git_index_sha256": "5af5b0d615e12ec72b2ad3b37fde6a2eec6536b6a95eb36a13ec4c0cb3851b9f"
+}

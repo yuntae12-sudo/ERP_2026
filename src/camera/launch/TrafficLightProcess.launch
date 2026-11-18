@@ -1,0 +1,10 @@
+<launch>
+    <node pkg="camera" type="WebcamParser.py" name="WebcamParser">
+    </node>
+    
+    <node pkg="camera" type="DetectTrafficLight.py" name="DetectTrafficLight">
+    </node>
+
+    <node pkg="camera" type="SortTrafficLight.py" name="SortTrafficLight" output="screen">
+    </node>
+</launch>

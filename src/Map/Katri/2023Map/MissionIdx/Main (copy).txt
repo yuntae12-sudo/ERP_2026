@@ -1,0 +1,1 @@
+AVOID_SMALL	0	367 

@@ -1,0 +1,41 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/autonav/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/autonav/catkin_ws/src/JS_Fusion/include/**",
+        "/home/autonav/catkin_ws/src/Lidar_ERP_2024/include/**",
+        "/home/autonav/catkin_ws/src/SIG_management/include/**",
+        "/home/autonav/catkin_ws/src/Sensor_fusion/include/**",
+        "/home/autonav/catkin_ws/src/TFFSIGN_generator/include/**",
+        "/home/autonav/catkin_ws/src/erp42_serial/include/**",
+        "/home/autonav/catkin_ws/src/plnctrl/include/**",
+        "/home/autonav/catkin_ws/src/plnctrl2024/include/**",
+        "/home/autonav/catkin_ws/src/plnctrl2024_jm/include/**",
+        "/home/autonav/catkin_ws/src/src1/tcpip/include/**",
+        "/home/autonav/catkin_ws/src/test_SIG/include/**",
+        "/home/autonav/catkin_ws/src/ublox-master/ublox_gps/include/**",
+        "/home/autonav/catkin_ws/src/ublox-master/ublox_msg_filters/include/**",
+        "/home/autonav/catkin_ws/src/ublox-master/ublox_msgs/include/**",
+        "/home/autonav/catkin_ws/src/ublox-master/ublox_serialization/include/**",
+        "/home/autonav/catkin_ws/src/usb_cam/include/**",
+        "/home/autonav/catkin_ws/src/velodyne/velodyne_driver/include/**",
+        "/home/autonav/catkin_ws/src/velodyne/velodyne_laserscan/include/**",
+        "/home/autonav/catkin_ws/src/velodyne/velodyne_pcl/include/**",
+        "/home/autonav/catkin_ws/src/velodyne/velodyne_pointcloud/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

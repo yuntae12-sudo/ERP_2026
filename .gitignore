@@ -1,0 +1,25 @@
+# ROS / catkin generated files
+build/
+devel/
+install/
+logs/
+.catkin_tools/
+.ros/
+
+# Captures and experiment output
+*.bag
+*.bag.active
+*.pcap
+*.pcapng
+
+# Python generated files and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local secrets
+.env
+.env.*
+!.env.example

@@ -1,0 +1,160 @@
+{
+  "offline_total": 85,
+  "offline_failures": 0,
+  "sanitized_total": 85,
+  "sanitized_failures": 0,
+  "old_59_missing": [],
+  "ros_total": 39,
+  "ros_failures": {},
+  "old_ros_29_missing": [],
+  "process_cleanup": true,
+  "test_master_uri": "http://127.0.0.1:42867",
+  "hardware_tested": false,
+  "environment_verification_success": true,
+  "offline_workspace": "/tmp/erp42-safety-k0sv5qjy",
+  "integration_directory": "/tmp/erp42-ros-integration-q7qf0l9q",
+  "node_binary_sha256": "21958bd525dd0f73a253a9a9744b2f7c61fd7439b8118cd042d48859be211e2c",
+  "current_code_hashes": {
+    "src/erp42_serial/src/erp42_serial_node.cpp": "3fd823938610a0e282d001562f1d38a90b9a8537b5ce5cdf1c8e3af21b614bc3",
+    "src/erp42_serial/src/safety_control.cpp": "2e67dda5732dad523714ff2c5992d0ba5a37efa45fc1ce189da525fa045c5b26",
+    "src/erp42_serial/src/erp42_serial.cpp": "ab7a49f65de276988b0aab48862065973d2c6fddad4f5a5bbd2e31576396fbe6",
+    "src/erp42_serial/src/.vscode/c_cpp_properties.json": "95a47f114307eceaf8fb06854c31207be748cdc785182544c65ba76459ec11e3",
+    "src/erp42_serial/src/.vscode/settings.json": "090a01e2bf7a18e887009c04997d697acb7d06315706c8d0f8b55edac0c63618",
+    "src/erp42_serial/src/SerialPort/serial_port.cpp": "406f960b9839c95975abb31c6d7fad48bf3b804e1368370bb49d4a24cf7debb6",
+    "src/erp42_serial/include/safety_control.h": "6bfca4ed56374110124f70bb8b0f634bddae3182532d400c135562ea723b0524",
+    "src/erp42_serial/include/erp42_serial.h": "6c70d0b130326edcd9fca3a5ad3e3ae81bbfbfbc6164dbd74494f3df5aa80ff5",
+    "src/erp42_serial/include/SerialPort/serial_port.h": "b882c63694a2b60628bdbac1949cde04ba123642c7a0b8715389153a01d4acce"
+  },
+  "new_cases": [
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_001_DefaultEnabled",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_002_PositiveSpeedRejected",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_003_NonzeroSteeringRejected",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_004_ZeroInputAccepted",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_005_ArmedZero",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_006_ReleasingZero",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_007_ManualTransitionAndLockedZero",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_008_EStopZero",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_009_GearInterlock",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_010_RejectedMotionNeverRestored",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryTest",
+      "name": "STATIONARY_011_PacketBoundaryAndShutdown",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryConfigTest",
+      "name": "STATIONARY_012_DisabledUsesPositiveBound",
+      "result": "PASS"
+    },
+    {
+      "suite": "StationaryConfigTest",
+      "name": "STATIONARY_013_MissingOrContradictoryPolicyBlocked",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_001_SessionStartsAtConstruction",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_002_ExpirationLocksMotion",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_003_PostDeadlineDriveRejected",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_004_PostDeadlineModeRejected",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_005_PostDeadlineRearmDenied",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_006_RepeatedRearmNeverExtendsSession",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_007_WatchdogSimultaneousExpiration",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_008_EStopSimultaneousExpiration",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_009_NoRosOrWallClockDependency",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_010_NewSessionStartsLocked",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "DEADLINE_012_MotionWindowIndependent",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineTest",
+      "name": "RegressionDeadlinePrecedesManualAndTransportFaults",
+      "result": "PASS"
+    },
+    {
+      "suite": "DeadlineConfigTest",
+      "name": "DEADLINE_011_InvalidLimitsFailClosed",
+      "result": "PASS"
+    }
+  ]
+}
