@@ -57,6 +57,7 @@ include_directories(
 )
 
 add_executable(erpgps src/INS_Kalman_Encoder.cpp)
+add_dependencies(erpgps ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(erpgps
   ${catkin_LIBRARIES}

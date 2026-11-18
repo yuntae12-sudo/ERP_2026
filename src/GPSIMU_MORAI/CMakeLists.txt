@@ -52,6 +52,7 @@ include_directories(
 )
 
 add_executable(gpsimu src/INS_Kalman_Encoder.cpp)
+add_dependencies(gpsimu ${catkin_EXPORTED_TARGETS})
 add_compile_options(-w)
 
 target_link_libraries(gpsimu

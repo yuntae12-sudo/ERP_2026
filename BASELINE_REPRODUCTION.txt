@@ -1,0 +1,49 @@
+ERP42 baseline reproduction (2026-11-18, Asia/Seoul)
+
+Branches
+  archive/erp42-safety-development: imported safety implementation, including
+    the ERP2024 message-generation dependency fix.
+  baseline/erp42-legacy: the backed-up legacy erp42_serial package rebuilt from
+    source, with clean-build message dependencies fixed in GPSIMU_MORAI,
+    INS_Integration and Lidar_ERP_2024.
+  main: original GitHub import; not replaced by this baseline.
+
+Source provenance
+  All 10 files in src/erp42_serial match, byte for byte, the package in
+  /home/autonav/ERP_2024_backup/src/erp42_serial.
+  Safety-development-only files remain on the archive branch.
+  The old executable was not copied into this workspace.
+  This reproduces the backed-up serial source, not a proven historical build
+  of every package or the exact compiler environment of the old executable.
+
+Validation
+  Full clean catkin_make -j4 -l4 -DPYTHON_EXECUTABLE=/usr/bin/python3: PASS.
+  rospack resolves erp42_serial to this workspace.
+  Restored executable has legacy readUpdate/writeUpdate symbols.
+  Isolated roslaunch erp42_serial erp42_serial_bridge.launch with private /dev,
+  network, PID namespace and a PTY at /dev/ttyUSB2: PASS.
+  Observed 5 Manual/zero speed/zero steer command frames and 3 decoded ROS
+  feedback messages. No drive commands or actual vehicle devices were used.
+  Existing package-name warnings and the Parking.cpp include warning remain.
+
+Limits
+  Physical vehicle behavior, Auto/Manual transitions, motion, braking and
+  emergency stopping have not been validated by this reproduction.
+  Legacy code transmits brake byte 0 and has no command-age watchdog.
+  MapRecord_erp.cpp still contains an old ERP_2024 absolute output path.
+  Do not treat this compatibility baseline as the safety-development version.
+
+Local evidence and preserved generated files
+  /home/autonav/ERP_artifacts/2026-11-18_baseline_reproduction/
+  source_verification.json, clean-build.log, mock-startup.log,
+  verify_mock_startup.py; safety-build/ and safety-devel/ preserve the
+  previously generated files (rebuild after switching source branches).
+
+Use the correct workspace in every new execution terminal:
+  source /opt/ros/noetic/setup.bash
+  source /home/autonav/ERP_2024_github/devel/setup.bash
+  rospack find erp42_serial
+
+The shell startup file still sources ~/ERP_2024/devel/setup.bash by default.
+Switching Git branches does not update compiled executables: rebuild the
+workspace and source its setup.bash again before testing that branch.
