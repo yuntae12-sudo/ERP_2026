@@ -74,3 +74,6 @@ target_link_libraries(plnctrl myHeader
 #   ${catkin_LIBRARIES}
 #   ${Eigen3_LIBRARIES}
 # )
+
+add_dependencies(myHeader ${catkin_EXPORTED_TARGETS})
+add_dependencies(plnctrl ${catkin_EXPORTED_TARGETS})
