@@ -1,0 +1,23 @@
+{
+  "distance_least_squares_divisor": 11.651648769038298,
+  "rounded_candidate": 11.65,
+  "scope": "In-sample fit to runs 1-5 under the approximate EStop arrival assumption. Not independently validated.",
+  "timing_sensitivity": [
+    {
+      "assumed_arrival_before_estop_s": 0,
+      "fitted_common_divisor": 11.651648769038298
+    },
+    {
+      "assumed_arrival_before_estop_s": 0.25,
+      "fitted_common_divisor": 11.24130281123076
+    },
+    {
+      "assumed_arrival_before_estop_s": 0.5,
+      "fitted_common_divisor": 10.82766770810116
+    },
+    {
+      "assumed_arrival_before_estop_s": 1.0,
+      "fitted_common_divisor": 10.013227940469726
+    }
+  ]
+}

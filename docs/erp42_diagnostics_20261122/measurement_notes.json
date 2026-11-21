@@ -1,0 +1,89 @@
+{
+  "report_date_kst": "2026-11-22",
+  "measurement_date_kst": "2026-11-21",
+  "repository_url": "https://github.com/yuntae12-sudo/ERP_2026",
+  "driver_commit": "3e2363caefd859ed45cb3b2796971e261d21c75c",
+  "code_changes": [
+    "Publish feedback_raw with raw speed and signed steer",
+    "Publish feedback_bytes with accepted 18-byte RX frame",
+    "Fix int16 steering sign boundary from >32768 to >=32768"
+  ],
+  "not_applied": [
+    "RX speed divisor 11.65",
+    "Floating-point speed conversion",
+    "Steering zero offset",
+    "Changes to vehicle command scaling"
+  ],
+  "validation": {
+    "serial_target_build": "PASS: cmake --build build --target erp42_serial_node -- -j2",
+    "bag_frame_comparisons": 2539,
+    "raw_decode_mismatches": 0,
+    "feedback_conversion_mismatches": 0,
+    "physical_vehicle_test_during_report_preparation": false,
+    "analysis_reproduction": "PASS: JSON and both CSV files reproduced byte-for-byte/equivalently from six original bags.",
+    "pdf": "PASS: 14 pages; Korean fonts embedded; missing glyphs normalized; rendered pages inspected."
+  },
+  "user_target": {
+    "speed_range_kmh": [
+      1,
+      3
+    ],
+    "tolerated_error_kmh": 0.3
+  },
+  "current_measurement_method": "14.2 m from rest; no separate 1.42 m acceleration lead-in in these six trials.",
+  "arrival_marker": "First RX EStop=1 approximates arrival for trials 1-5; trial 6 stopped later, exclude from RX calibration.",
+  "earlier_speed_tests": {
+    "distance_m": 14.2,
+    "separate_acceleration_leadin_m": 1.42,
+    "trials": [
+      {
+        "command_raw": 70,
+        "times_s": [
+          13.4,
+          13.92
+        ]
+      },
+      {
+        "command_raw": 100,
+        "times_s": [
+          9.63,
+          9.63
+        ]
+      }
+    ],
+    "use_in_current_fit": false
+  },
+  "steering_observations": {
+    "earlier_raw_right": 1947,
+    "earlier_raw_left": -1972,
+    "earlier_reported_angles_deg": [
+      32,
+      22
+    ],
+    "earlier_wheel_reference": "not established",
+    "later_stationary_wheel_angles_deg": {
+      "nominal_straight": {
+        "left": 0,
+        "right_rightward": 5
+      },
+      "max_left": {
+        "left": 27.5,
+        "right": 19
+      },
+      "max_right": {
+        "left": 20,
+        "right": 28
+      }
+    },
+    "raw_and_later_angles_synchronously_measured": false,
+    "heading_observation": {
+      "distance_m": 2.8,
+      "heading_change_right_deg": 4,
+      "method": "visual estimate on marble; not calibrated"
+    }
+  },
+  "source_sha256": {
+    "src/erp42_serial/include/erp42_serial.h": "b604ce5c6b4436d842773734b37509f0d19b70e2ad796eb8e02b828f14ec383f",
+    "src/erp42_serial/src/erp42_serial.cpp": "e884f86d3fd6295de4dc34517dacd31aa2241b61614c4b5a7eccf0ecf2a20a23"
+  }
+}

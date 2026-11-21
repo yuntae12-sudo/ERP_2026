@@ -1,0 +1,501 @@
+{
+  "assumptions_and_limits": [
+    "User confirmed these six tests start from rest; previous 1.42 m run-in does not apply.",
+    "Elapsed times and 14.2 m distance supplied by user; no exact start/finish markers in bags.",
+    "For runs 1-5, arrival is approximated by first feedback_raw EStop=1, then measured duration is subtracted.",
+    "Run 6 EStop was later than arrival: no RX-to-distance calibration is computed for run 6.",
+    "All bag times are receipt times relative to each bag start, not sensor acquisition timestamps.",
+    "Manual, EStop and non-forward states excluded from automatic-run metrics.",
+    "RX divisors are provisional and confounded by manual timing and stop reaction delay.",
+    "A rising RX speed does not by itself separate physical acceleration from internal telemetry filtering.",
+    "The command topic confirms the host command value, not electrical delivery or acknowledgement by the vehicle.",
+    "No driver settings, calibration constants, ROS nodes or vehicle commands were changed by this analysis."
+  ],
+  "formulae": {
+    "measured_average_kmh": "3.6 * distance_m / measured_duration_s",
+    "provisional_rx_divisor": "integral(raw_speed dt) / (3.6 * distance_m)",
+    "distance_if_divisor_10_m": "integral(raw_speed dt) / 36",
+    "recorded_feedback_speed": "trunc(raw_speed / 10)",
+    "recorded_feedback_steer": "trunc(raw_steer / 71)"
+  },
+  "command_to_measured_average_fit": {
+    "scope": "Only mean speed over these six 14.2 m starts from rest; not a steady-state or RX-unit calibration.",
+    "through_origin_slope": 0.053452469625579715,
+    "through_origin_divisor": 18.70820949910702,
+    "through_origin_centered_r_squared": 0.9938158814726046,
+    "affine_slope": 0.05519819476354964,
+    "affine_intercept_kmh": -0.20403162550023576,
+    "affine_r_squared": 0.9949062593858121
+  },
+  "trials": [
+    {
+      "summary": {
+        "run": 1,
+        "bag": "erp42_speed_check_2026-11-21-23-36-05.bag",
+        "command_raw": 70,
+        "distance_m": 14.2,
+        "measured_duration_s": 13.82,
+        "measured_average_kmh": 3.698986975397974,
+        "command_per_measured_average_kmh": 18.92410015649452,
+        "bag_duration_s": 29.682013273239136,
+        "raw_sample_count": 583,
+        "raw_rate_hz": 19.607837833962733,
+        "raw_max_gap_s": 0.051660776138305664,
+        "drive_on_bag_s": 2.3966712951660156,
+        "command_on_bag_s": 2.448068380355835,
+        "drive_to_command_step_s": 0.051397085189819336,
+        "estop_bag_s": 18.411136150360107,
+        "positive_speed_delay_after_command_s": 1.1218655109405518,
+        "pre_estop_last_1s_raw_mean": 65.78947368421052,
+        "pre_estop_last_3s_raw_slope_per_s": 2.423494027570931,
+        "automatic_run_peak_raw": 68.0,
+        "approx_timed_window_usable": true,
+        "approx_window_start_bag_s": 4.591136150360107,
+        "approx_window_end_bag_s": 18.411136150360107,
+        "approx_window_raw_integral_count_s": 610.6269392235998,
+        "approx_window_raw_time_mean": 44.184293720955125,
+        "approx_window_distance_if_divisor_10_m": 16.961859422877772,
+        "approx_rx_divisor_counts_per_kmh": 11.944971424561812,
+        "approx_window_encoder_counts_abs": 1018.9550102998398,
+        "command_to_estop_distance_if_divisor_10_m": 17.136303934786056,
+        "first_raw_reaches_50pct_after_command_s": 5.762964248657227,
+        "first_raw_reaches_90pct_after_command_s": 13.92292594909668
+      },
+      "bag_sha256": "5051cec26784957a424525e4d6c74a06660198f7ceada845b8652fe1445bb617",
+      "bag_start_epoch_s": 1795271765.347374,
+      "topic_message_counts": {
+        "/erp42_serial/feedback_raw": 583,
+        "/erp42_serial/feedback": 583,
+        "/erp42_serial/feedback_bytes": 583,
+        "/erp42_serial/command": 583,
+        "/erp42_serial/drive": 434
+      },
+      "raw_to_feedback_check": {
+        "matched": 583,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.2522468566894531
+      },
+      "bytes_to_raw_check": {
+        "matched": 583,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.14495849609375
+      },
+      "automatic_command_values": [
+        70
+      ],
+      "automatic_drive_values": [
+        70
+      ],
+      "arrival_timing_sensitivity": [
+        {
+          "assumed_arrival_before_estop_s": 0,
+          "approx_rx_divisor_counts_per_kmh": 11.944971424561812
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.25,
+          "approx_rx_divisor_counts_per_kmh": 11.668637333421136
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.5,
+          "approx_rx_divisor_counts_per_kmh": 11.377461525942428
+        },
+        {
+          "assumed_arrival_before_estop_s": 1.0,
+          "approx_rx_divisor_counts_per_kmh": 10.778116675969647
+        }
+      ]
+    },
+    {
+      "summary": {
+        "run": 2,
+        "bag": "erp42_speed_check_2026-11-21-23-37-53.bag",
+        "command_raw": 70,
+        "distance_m": 14.2,
+        "measured_duration_s": 14.34,
+        "measured_average_kmh": 3.5648535564853554,
+        "command_per_measured_average_kmh": 19.636150234741784,
+        "bag_duration_s": 20.85888433456421,
+        "raw_sample_count": 409,
+        "raw_rate_hz": 19.607802614573767,
+        "raw_max_gap_s": 0.051470279693603516,
+        "drive_on_bag_s": 2.1342508792877197,
+        "command_on_bag_s": 2.19303560256958,
+        "drive_to_command_step_s": 0.05878472328186035,
+        "estop_bag_s": 18.309054851531982,
+        "positive_speed_delay_after_command_s": 1.0711865425109863,
+        "pre_estop_last_1s_raw_mean": 65.47368421052632,
+        "pre_estop_last_3s_raw_slope_per_s": 1.8988956462783009,
+        "automatic_run_peak_raw": 68.0,
+        "approx_timed_window_usable": true,
+        "approx_window_start_bag_s": 3.9690548515319826,
+        "approx_window_end_bag_s": 18.309054851531982,
+        "approx_window_raw_integral_count_s": 614.7005269908905,
+        "approx_window_raw_time_mean": 42.866145536324304,
+        "approx_window_distance_if_divisor_10_m": 17.075014638635846,
+        "approx_rx_divisor_counts_per_kmh": 12.024658196222427,
+        "approx_window_encoder_counts_abs": 1022.0,
+        "command_to_estop_distance_if_divisor_10_m": 17.154230866167282,
+        "first_raw_reaches_50pct_after_command_s": 6.068979740142822,
+        "first_raw_reaches_90pct_after_command_s": 14.127202272415161
+      },
+      "bag_sha256": "474ec52a5ca2e6c222f41565eaafd4a806972908f1d294a4d3ba2028524b770a",
+      "bag_start_epoch_s": 1795271873.8244066,
+      "topic_message_counts": {
+        "/erp42_serial/feedback": 410,
+        "/erp42_serial/feedback_raw": 409,
+        "/erp42_serial/feedback_bytes": 409,
+        "/erp42_serial/command": 409,
+        "/erp42_serial/drive": 375
+      },
+      "raw_to_feedback_check": {
+        "matched": 409,
+        "unmatched_raw": 0,
+        "extra_other_messages": 1,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.17070770263671875
+      },
+      "bytes_to_raw_check": {
+        "matched": 409,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.29349327087402344
+      },
+      "automatic_command_values": [
+        70
+      ],
+      "automatic_drive_values": [
+        70
+      ],
+      "arrival_timing_sensitivity": [
+        {
+          "assumed_arrival_before_estop_s": 0,
+          "approx_rx_divisor_counts_per_kmh": 12.024658196222427
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.25,
+          "approx_rx_divisor_counts_per_kmh": 11.718447299630428
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.5,
+          "approx_rx_divisor_counts_per_kmh": 11.41705997595456
+        },
+        {
+          "assumed_arrival_before_estop_s": 1.0,
+          "approx_rx_divisor_counts_per_kmh": 10.801102801667692
+        }
+      ]
+    },
+    {
+      "summary": {
+        "run": 3,
+        "bag": "erp42_speed_check_2026-11-21-23-38-58.bag",
+        "command_raw": 100,
+        "distance_m": 14.2,
+        "measured_duration_s": 9.83,
+        "measured_average_kmh": 5.200406917599186,
+        "command_per_measured_average_kmh": 19.22926447574335,
+        "bag_duration_s": 17.54398822784424,
+        "raw_sample_count": 345,
+        "raw_rate_hz": 19.607858958934596,
+        "raw_max_gap_s": 0.051679372787475586,
+        "drive_on_bag_s": 2.053854465484619,
+        "command_on_bag_s": 2.1419851779937744,
+        "drive_to_command_step_s": 0.08813071250915527,
+        "estop_bag_s": 13.310983419418335,
+        "positive_speed_delay_after_command_s": 0.8667523860931396,
+        "pre_estop_last_1s_raw_mean": 89.52631578947368,
+        "pre_estop_last_3s_raw_slope_per_s": 3.2364034584398786,
+        "automatic_run_peak_raw": 93.0,
+        "approx_timed_window_usable": true,
+        "approx_window_start_bag_s": 3.480983419418335,
+        "approx_window_end_bag_s": 13.310983419418335,
+        "approx_window_raw_integral_count_s": 612.3376744604111,
+        "approx_window_raw_time_mean": 62.29274409566746,
+        "approx_window_distance_if_divisor_10_m": 17.00937984612253,
+        "approx_rx_divisor_counts_per_kmh": 11.978436511353895,
+        "approx_window_encoder_counts_abs": 1019.0,
+        "command_to_estop_distance_if_divisor_10_m": 17.047792610194946,
+        "first_raw_reaches_50pct_after_command_s": 4.386003494262695,
+        "first_raw_reaches_90pct_after_command_s": 10.098000049591064
+      },
+      "bag_sha256": "15a3c1e25838cb11beaa2a65db0048ce75be46a16b871d97a9d41ec94e57f791",
+      "bag_start_epoch_s": 1795271939.2067358,
+      "topic_message_counts": {
+        "/erp42_serial/feedback": 345,
+        "/erp42_serial/feedback_bytes": 345,
+        "/erp42_serial/feedback_raw": 345,
+        "/erp42_serial/command": 344,
+        "/erp42_serial/drive": 310
+      },
+      "raw_to_feedback_check": {
+        "matched": 345,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.3619194030761719
+      },
+      "bytes_to_raw_check": {
+        "matched": 345,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.31566619873046875
+      },
+      "automatic_command_values": [
+        100
+      ],
+      "automatic_drive_values": [
+        100
+      ],
+      "arrival_timing_sensitivity": [
+        {
+          "assumed_arrival_before_estop_s": 0,
+          "approx_rx_divisor_counts_per_kmh": 11.978436511353895
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.25,
+          "approx_rx_divisor_counts_per_kmh": 11.55627816871236
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.5,
+          "approx_rx_divisor_counts_per_kmh": 11.11919293143013
+        },
+        {
+          "assumed_arrival_before_estop_s": 1.0,
+          "approx_rx_divisor_counts_per_kmh": 10.252715497975805
+        }
+      ]
+    },
+    {
+      "summary": {
+        "run": 4,
+        "bag": "erp42_speed_check_2026-11-21-23-40-01.bag",
+        "command_raw": 100,
+        "distance_m": 14.2,
+        "measured_duration_s": 9.26,
+        "measured_average_kmh": 5.520518358531318,
+        "command_per_measured_average_kmh": 18.114241001564945,
+        "bag_duration_s": 19.992144107818604,
+        "raw_sample_count": 393,
+        "raw_rate_hz": 19.607745526594098,
+        "raw_max_gap_s": 0.051717281341552734,
+        "drive_on_bag_s": 3.835413694381714,
+        "command_on_bag_s": 3.9270405769348145,
+        "drive_to_command_step_s": 0.09162688255310059,
+        "estop_bag_s": 14.432933330535889,
+        "positive_speed_delay_after_command_s": 0.8159208297729492,
+        "pre_estop_last_1s_raw_mean": 87.63157894736842,
+        "pre_estop_last_3s_raw_slope_per_s": 4.455087093408499,
+        "automatic_run_peak_raw": 93.0,
+        "approx_timed_window_usable": true,
+        "approx_window_start_bag_s": 5.172933330535889,
+        "approx_window_end_bag_s": 14.432933330535889,
+        "approx_window_raw_integral_count_s": 551.2085095024108,
+        "approx_window_raw_time_mean": 59.52575696570312,
+        "approx_window_distance_if_divisor_10_m": 15.311347486178079,
+        "approx_rx_divisor_counts_per_kmh": 10.782639074773295,
+        "approx_window_encoder_counts_abs": 911.0,
+        "command_to_estop_distance_if_divisor_10_m": 15.336260656515757,
+        "first_raw_reaches_50pct_after_command_s": 4.334979057312012,
+        "first_raw_reaches_90pct_after_command_s": 10.250765085220337
+      },
+      "bag_sha256": "0dd037461bf14b948ccc0bc081d9ea40e122ffee6fe673cbb580b35d1de92c86",
+      "bag_start_epoch_s": 1795272001.8857458,
+      "topic_message_counts": {
+        "/erp42_serial/feedback": 393,
+        "/erp42_serial/feedback_raw": 393,
+        "/erp42_serial/feedback_bytes": 393,
+        "/erp42_serial/command": 393,
+        "/erp42_serial/drive": 324
+      },
+      "raw_to_feedback_check": {
+        "matched": 393,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.19860267639160156
+      },
+      "bytes_to_raw_check": {
+        "matched": 393,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.23746490478515625
+      },
+      "automatic_command_values": [
+        100
+      ],
+      "automatic_drive_values": [
+        100
+      ],
+      "arrival_timing_sensitivity": [
+        {
+          "assumed_arrival_before_estop_s": 0,
+          "approx_rx_divisor_counts_per_kmh": 10.782639074773295
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.25,
+          "approx_rx_divisor_counts_per_kmh": 10.354369249142392
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.5,
+          "approx_rx_divisor_counts_per_kmh": 9.937272805003493
+        },
+        {
+          "assumed_arrival_before_estop_s": 1.0,
+          "approx_rx_divisor_counts_per_kmh": 9.086333837867343
+        }
+      ]
+    },
+    {
+      "summary": {
+        "run": 5,
+        "bag": "erp42_speed_check_2026-11-21-23-41-03.bag",
+        "command_raw": 150,
+        "distance_m": 14.2,
+        "measured_duration_s": 6.45,
+        "measured_average_kmh": 7.925581395348837,
+        "command_per_measured_average_kmh": 18.926056338028168,
+        "bag_duration_s": 12.796956777572632,
+        "raw_sample_count": 251,
+        "raw_rate_hz": 19.60801583412503,
+        "raw_max_gap_s": 0.05144858360290527,
+        "drive_on_bag_s": 1.9470298290252686,
+        "command_on_bag_s": 2.04003643989563,
+        "drive_to_command_step_s": 0.09300661087036133,
+        "estop_bag_s": 9.63896656036377,
+        "positive_speed_delay_after_command_s": 1.0710184574127197,
+        "pre_estop_last_1s_raw_mean": 135.68421052631578,
+        "pre_estop_last_3s_raw_slope_per_s": 9.358521613799326,
+        "automatic_run_peak_raw": 142.0,
+        "approx_timed_window_usable": true,
+        "approx_window_start_bag_s": 3.1889665603637694,
+        "approx_window_end_bag_s": 9.63896656036377,
+        "approx_window_raw_integral_count_s": 584.3025828123093,
+        "approx_window_raw_time_mean": 90.58954772283865,
+        "approx_window_distance_if_divisor_10_m": 16.230627300341926,
+        "approx_rx_divisor_counts_per_kmh": 11.430019225592906,
+        "approx_window_encoder_counts_abs": 974.4700651812562,
+        "command_to_estop_distance_if_divisor_10_m": 16.247869819402695,
+        "first_raw_reaches_50pct_after_command_s": 3.2636306285858154,
+        "first_raw_reaches_90pct_after_command_s": 6.476979732513428
+      },
+      "bag_sha256": "5e90be37bd5853704ca545a33c50041d341a9d56685284bd9a2423f7b1b76c02",
+      "bag_start_epoch_s": 1795272063.7998106,
+      "topic_message_counts": {
+        "/erp42_serial/feedback": 251,
+        "/erp42_serial/feedback_raw": 251,
+        "/erp42_serial/feedback_bytes": 251,
+        "/erp42_serial/command": 251,
+        "/erp42_serial/drive": 218
+      },
+      "raw_to_feedback_check": {
+        "matched": 251,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.21266937255859375
+      },
+      "bytes_to_raw_check": {
+        "matched": 251,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.18548965454101562
+      },
+      "automatic_command_values": [
+        150
+      ],
+      "automatic_drive_values": [
+        150
+      ],
+      "arrival_timing_sensitivity": [
+        {
+          "assumed_arrival_before_estop_s": 0,
+          "approx_rx_divisor_counts_per_kmh": 11.430019225592906
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.25,
+          "approx_rx_divisor_counts_per_kmh": 10.774059295187907
+        },
+        {
+          "assumed_arrival_before_estop_s": 0.5,
+          "approx_rx_divisor_counts_per_kmh": 10.096972115069676
+        },
+        {
+          "assumed_arrival_before_estop_s": 1.0,
+          "approx_rx_divisor_counts_per_kmh": 8.785354169974678
+        }
+      ]
+    },
+    {
+      "summary": {
+        "run": 6,
+        "bag": "erp42_speed_check_2026-11-21-23-41-46.bag",
+        "command_raw": 150,
+        "distance_m": 14.2,
+        "measured_duration_s": 6.24,
+        "measured_average_kmh": 8.192307692307692,
+        "command_per_measured_average_kmh": 18.30985915492958,
+        "bag_duration_s": 28.457515001296997,
+        "raw_sample_count": 558,
+        "raw_rate_hz": 19.607881930541843,
+        "raw_max_gap_s": 0.051496028900146484,
+        "drive_on_bag_s": 6.181886434555054,
+        "command_on_bag_s": 6.2730162143707275,
+        "drive_to_command_step_s": 0.09112977981567383,
+        "estop_bag_s": 14.8409104347229,
+        "positive_speed_delay_after_command_s": 1.172896146774292,
+        "pre_estop_last_1s_raw_mean": 141.42105263157896,
+        "pre_estop_last_3s_raw_slope_per_s": 6.526853733205031,
+        "automatic_run_peak_raw": 149.0,
+        "approx_timed_window_usable": false,
+        "approx_window_start_bag_s": null,
+        "approx_window_end_bag_s": null,
+        "approx_window_raw_integral_count_s": null,
+        "approx_window_raw_time_mean": null,
+        "approx_window_distance_if_divisor_10_m": null,
+        "approx_rx_divisor_counts_per_kmh": null,
+        "approx_window_encoder_counts_abs": null,
+        "command_to_estop_distance_if_divisor_10_m": 19.95307386914889,
+        "first_raw_reaches_50pct_after_command_s": 3.3148272037506104,
+        "first_raw_reaches_90pct_after_command_s": 6.680659294128418
+      },
+      "bag_sha256": "4c53c53589f56354b1062e619eb5b28183760bdde51af6e26a4fdcfe9d1163b4",
+      "bag_start_epoch_s": 1795272106.741924,
+      "topic_message_counts": {
+        "/erp42_serial/feedback_raw": 558,
+        "/erp42_serial/feedback": 559,
+        "/erp42_serial/feedback_bytes": 558,
+        "/erp42_serial/command": 558,
+        "/erp42_serial/drive": 446
+      },
+      "raw_to_feedback_check": {
+        "matched": 558,
+        "unmatched_raw": 0,
+        "extra_other_messages": 1,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.23102760314941406
+      },
+      "bytes_to_raw_check": {
+        "matched": 558,
+        "unmatched_raw": 0,
+        "extra_other_messages": 0,
+        "value_mismatches": 0,
+        "max_receipt_time_difference_ms": 0.209808349609375
+      },
+      "automatic_command_values": [
+        150
+      ],
+      "automatic_drive_values": [
+        150
+      ],
+      "arrival_timing_sensitivity": []
+    }
+  ]
+}
