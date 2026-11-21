@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SerialPort/serial_port.h"
+#include <std_msgs/UInt8MultiArray.h>
 #include <memory>
 #include <thread>
 
@@ -59,6 +60,8 @@ namespace erp42
         ros::NodeHandle m_nh;
         ros::Rate m_loop;
         ros::Publisher m_pub_feedback;
+        ros::Publisher m_pub_feedback_raw;
+        ros::Publisher m_pub_feedback_bytes;
         ros::Publisher m_pub_cmdcontrol;
         ros::Subscriber m_sub_mode;
         ros::Subscriber m_sub_drive;

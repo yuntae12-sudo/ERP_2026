@@ -37,6 +37,8 @@ void ERP42Serial::UpdateNode()
     std::string ns = ros::this_node::getNamespace();
 
     m_pub_feedback = m_nh.advertise<Total_msgs::SerialFeedBack>(ns + "/feedback",1);
+    m_pub_feedback_raw = m_nh.advertise<Total_msgs::SerialFeedBack>(ns + "/feedback_raw",1);
+    m_pub_feedback_bytes = m_nh.advertise<std_msgs::UInt8MultiArray>(ns + "/feedback_bytes",1);
     m_pub_cmdcontrol = m_nh.advertise<Total_msgs::CmdControl>(ns + "/command", 1);
     m_sub_mode = m_nh.subscribe(ns + "/mode", 1, &ERP42Serial::ModeCallback, this);
     m_sub_drive = m_nh.subscribe(ns + "/drive", 1, &ERP42Serial::DriveCallback, this);
@@ -114,7 +116,7 @@ void ERP42Serial::readUpdate()
         steer_now |= static_cast<int>((m_read_data[idx + 8]) & 0xff);
         steer_now |= static_cast<int>((m_read_data[idx + 9] << 8) & 0xff00);
 
-        if (steer_now > 32768)
+        if (steer_now >= 32768)
             steer_now = steer_now - 65536;
 
         int32_t encoder = 0;
@@ -133,6 +135,23 @@ void ERP42Serial::readUpdate()
         m_feedback_msg.alive    = m_read_data[idx+15];
         
         m_pub_feedback.publish(m_feedback_msg);
+
+        // Diagnostic values in protocol counts, before unit conversion.
+        if (m_pub_feedback_raw.getNumSubscribers() > 0)
+        {
+            Total_msgs::SerialFeedBack raw_feedback = m_feedback_msg;
+            raw_feedback.speed = speed_now;
+            raw_feedback.steer = steer_now;
+            m_pub_feedback_raw.publish(raw_feedback);
+        }
+
+        // Preserve the complete accepted RX frame, including byte order.
+        if (m_pub_feedback_bytes.getNumSubscribers() > 0)
+        {
+            std_msgs::UInt8MultiArray raw_bytes;
+            raw_bytes.data.assign(m_read_data, m_read_data + NUM_READ);
+            m_pub_feedback_bytes.publish(raw_bytes);
+        }
     }
 }
 
